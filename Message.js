@@ -13,9 +13,7 @@ Message.prototype.constructor = Message;
 
 
 Message.prototype.start = async function(){
-    console.log('hi')
-    const result = await this._sendMessage('Hello world');
-    console.log(result)
+    return await this._sendMessage('Hello world');
 };
 
 module.exports = Message;

@@ -23,8 +23,11 @@ let handler = {
 
 router.post('/', function(req, res, next){
     const event = req.body.event;
-    let currentClass = new handler[event](req);
-    currentClass.start()
+    const currentClass = new handler[event](req);
+    currentClass.start().then((result)=>{
+        console.log(result);
+        res.end()
+    })
 });
 
 module.exports = router;
