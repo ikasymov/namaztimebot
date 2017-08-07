@@ -1,6 +1,7 @@
 const RequestHandler = require('./handler');
 const Xray = require('x-ray');
 const x = Xray();
+const request = require('request');
 
 function Message(req){
     RequestHandler.apply(this, arguments);
@@ -22,7 +23,10 @@ Message.prototype.start = async function(){
 
 Message.prototype._getNamaTime = async function(){
     return new Promise((resolve, reject)=>{
-        x(this.site, '.list-times ul', ['li'])((error, list)=>{
+        let data = {
+            url: this.site
+        };
+        x(data, '.list-times ul', ['li'])((error, list)=>{
             if(!error){
                 resolve(list.join(' '))
             }
