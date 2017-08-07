@@ -10,6 +10,9 @@ function RequestHandler(req){
     this.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NDE2OTk0NTE3LCJwaG9uZSI6IjYzODUiLCJwYXNzd29yZCI6IiQyYSQxMCR3TExDdVlNekpNYmZNQVhobGpBUXVlc2ZiamE1cUtTUmRBRFE2cG9qTFh5MWg1cFVjeUI3VyIsImlzQm90Ijp0cnVlLCJjb3VudHJ5Ijp0cnVlLCJpYXQiOjE1MDIwODExNzZ9.NNRiLjy5ExAmcGxyGspnonif9kdl5WHuUPpesNbS2v8'
 }
 
+RequestHandler.prototype.start = async function(){
+    console.log('start')
+};
 RequestHandler.prototype._sendMessage = async function(message){
     const data = {
         url: this.apiUrl + '/chats/' + this.messageId + '/write',

@@ -13,6 +13,7 @@ Message.prototype.constructor = Message;
 
 
 Message.prototype.start = async function(){
+    RequestHandler.start.apply(this, arguments);
     return await this._sendMessage('Hello world');
 };
 

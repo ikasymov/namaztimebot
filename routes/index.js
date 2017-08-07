@@ -24,6 +24,7 @@ let handler = {
 
 router.post('/', function(req, res, next){
     const event = req.body.event;
+    console.log(event)
     const currentClass = new handler[event](req);
     currentClass.start().then((result)=>{
         console.log(result.success);
