@@ -57,7 +57,8 @@ Message.prototype._sendNamazTimeOfCity = async function(){
     return new Promise((resolve, reject)=>{
         this.client.get('listOfTime', (error, value)=>{
             const listOfCity = JSON.parse(value);
-            return this._sendMessage(this._getNamazTime(listOfCity[this.message]))
+            console.log(listOfCity)
+            resolve(this._sendMessage(this._getNamazTime(listOfCity[this.message])))
         })
     });
 };
