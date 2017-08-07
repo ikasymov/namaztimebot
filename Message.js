@@ -28,6 +28,7 @@ Message.prototype.start = async function(){
                    resolve(this._sendMessage('Введите старт для начало'))
                 }
             }
+            reject(error)
 
         });
     });
