@@ -27,7 +27,7 @@ RequestHandler.prototype._sendMessage = async function(message){
             if(error){
                 reject(error)
             }
-            resolve(body)
+            resolve(body.success)
         }))
     })
 };
