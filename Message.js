@@ -16,15 +16,18 @@ Message.prototype.constructor = Message;
 
 
 Message.prototype.start = async function(){
-    RequestHandler.prototype.start.apply(this, arguments);
-    const text = await this._getNamaTime();
-    this.site = 'http://nasaatmedia.kg/namaz-ubaktysy';
-    return await this._sendMessage(text);
+    this.site = 'http://nasaatmedia.kg/namaz-ubaktysy'
+    x(this.site, '.input-field wm-select', ['.time_select.browser-default.waves-effect.waves-light.btn'])((error, list)=>{
+        console.log(list)
+    });
+    return await this._sendMessage('hello')
+    // RequestHandler.prototype.start.apply(this, arguments);
+    // const text = await this._getNamazTime('osh');
+    // return await this._sendMessage(text);
 };
 
-Message.prototype._getNamaTime = async function(){
+Message.prototype._getNamazTime = async function(city){
     return new Promise((resolve, reject)=>{
-        const city = 'osh';
         const data = {
             url: this.site,
             method: 'GET',
