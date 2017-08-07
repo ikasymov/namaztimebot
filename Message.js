@@ -16,14 +16,19 @@ Message.prototype.constructor = Message;
 
 Message.prototype.start = async function(){
     RequestHandler.prototype.start.apply(this, arguments);
-    await this._getNamaTime();
-    return await this._sendMessage('Hello world');
+    const text = await this._getNamaTime();
+    return await this._sendMessage(text);
 };
 
 Message.prototype._getNamaTime = async function(){
-    x(this.site, '.list-times ul', ['li'])((error, list)=>{
-        console.log(list)
-    })
+    return new Promise((resolve, reject)=>{
+        x(this.site, '.list-times ul', ['li'])((error, list)=>{
+            if(!error){
+                resolve(list.join(' '))
+            }
+            reject(error)
+        })
+    });
 };
 
 module.exports = Message;
