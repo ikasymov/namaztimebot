@@ -60,6 +60,7 @@ Message.prototype._sendNamazTimeOfCity = async function(){
             // console.log(listOfCity)
             // this._getNamazTime(listOfCity[this.message])
             this._getNamazTime(listOfCity[parseInt(this.message)]).then((namaztime)=>{
+                console.log(namaztime)
                 resolve(this._getNamazTime(namaztime))
             })
 
