@@ -81,9 +81,8 @@ Message.prototype._getNamazTime = async function(city){
         };
         request(data, (error, req, body)=>{
             x(body, '.list-times ul', ['li'])((error, list)=>{
-                console.log(list)
                 if(!error){
-                    resolve(list.join(' '))
+                    resolve(list)
                 }
                 reject(error)
             })
