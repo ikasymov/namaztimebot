@@ -17,18 +17,46 @@ Message.prototype.constructor = Message;
 
 Message.prototype.start = async function(){
     this.site = 'http://nasaatmedia.kg/namaz-ubaktysy';
-    return new Promise((resolve, reject)=>{
-        x('http://nasaatmedia.kg/namaz-ubaktysy/', '.wrapper-main', ['.time_select.browser-default.waves-effect.waves-light.btn option'])((error, list)=>{
+    this.client.set(this.senderId + 'step', (error, value)=>{
+        if(!error){
+            if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт'){
+                this._sendListOfCity();
+            }else if(value === 'wait_time'){
+                this._sendNamazTimeOfCity();
+            }else{
+                this._sendMessage('Введите старт для начало')
+            }
+        }
 
-            let text = list.map((elem, i)=>{
+    });
+};
+
+Message.prototype._sendListOfCity = async function(){
+    return new Promise((resolve, reject)=>{
+        x(this.site, '.wrapper-main', {
+            'ru_list': x('.valign-wrappers', ['.time_select.browser-default.waves-effect.waves-light.btn option']),
+            'en_list': x('.valign-wrappers', ['.time_select.browser-default.waves-effect.waves-light.btn option@value'])
+        })((error, list)=>{
+            if(error){
+                reject(error)
+            }
+            this.client('listOfTime', JSON.stringify(list.en_list));
+            let text = list.ru_list.map((elem, i)=>{
                 return i + ' '+ elem
             }).toString().split(',').join('\n');
+            this.client(this.senderId + 'step', 'wait_time');
             resolve(this._sendMessage(text));
         });
-    })
-    // RequestHandler.prototype.start.apply(this, arguments);
-    // const text = await this._getNamazTime('osh');
-    // return await this._sendMessage(text);
+    });
+};
+
+Message.prototype._sendNamazTimeOfCity = async function(){
+    return new Promise((resolve, reject)=>{
+        this.client.get('listOfTime', (error, value)=>{
+            const listOfCity = JSON.parse(value);
+            return this._sendMessage(this._getNamazTime(listOfCity[this.message]))
+        })
+    });
 };
 
 Message.prototype._getNamazTime = async function(city){
