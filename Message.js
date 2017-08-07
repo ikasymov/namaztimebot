@@ -44,7 +44,8 @@ Message.prototype._sendListOfCity = async function(){
                 reject(error)
             }
             this.client.set('listOfTime', JSON.stringify(list.en_list));
-            let text = list.ru_list.map((elem, i)=>{
+            let text = 'Введите цифры города';
+            text += list.ru_list.map((elem, i)=>{
                 return i + ' '+ elem
             }).toString().split(',').join('\n');
             this.client.set(this.senderId + 'step', 'wait_time');
@@ -57,12 +58,14 @@ Message.prototype._sendNamazTimeOfCity = async function(){
     return new Promise((resolve, reject)=>{
         this.client.get('listOfTime', (error, value)=>{
             const listOfCity = JSON.parse(value);
-            // console.log(listOfCity)
-            // this._getNamazTime(listOfCity[this.message])
-            console.log(listOfCity[parseInt(this.message)]);
-            this._getNamazTime(listOfCity[parseInt(this.message)]).then((namaztime)=>{
-                resolve(this._sendMessage(namaztime))
-            })
+            const city = listOfCity[parseInt(this.message)];
+            if(city !== undefined){
+                this._getNamazTime(city).then((namaztime)=>{
+                    resolve(this._sendMessage(namaztime))
+                })
+            }else{
+                resolve(this._sendMessage('Введите правильные цифры'))
+            }
 
         })
     });
