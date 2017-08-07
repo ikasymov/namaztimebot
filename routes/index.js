@@ -24,7 +24,7 @@ let handler = {
 
 router.post('/', function(req, res, next){
     const event = req.body.event;
-    let currentClass = new handler[event];
+    let currentClass = new handler[event](req);
     currentClass.start()
 });
 
