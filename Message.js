@@ -24,7 +24,7 @@ Message.prototype.start = async function(){
 Message.prototype._getNamaTime = async function(){
     return new Promise((resolve, reject)=>{
         let data = {
-            url: this.site,
+            url: 'http://nasaatmedia.kg/namaz-ubaktysy',
             method: 'GET',
             headers: {
                 'Cookie': {
@@ -32,14 +32,15 @@ Message.prototype._getNamaTime = async function(){
                 }
             }
         };
-        request()
-        x(data, '.list-times ul', ['li'])((error, list)=>{
-            if(!error){
-                console.log(list)
-                resolve(list.join(' '))
-            }
-            reject(error)
-        })
+        request(data, (error, req, body)=>{
+            x(body, '.list-times ul', ['li'])((error, list)=>{
+                if(!error){
+                    console.log(list)
+                    resolve(list.join(' '))
+                }
+                reject(error)
+            })
+        });
     });
 };
 
