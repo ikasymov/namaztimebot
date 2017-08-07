@@ -11,7 +11,7 @@ function RequestHandler(req){
 }
 
 RequestHandler.prototype.start = async function(){
-    console.log('start')
+    return 'start'
 };
 RequestHandler.prototype._sendMessage = async function(message){
     const data = {

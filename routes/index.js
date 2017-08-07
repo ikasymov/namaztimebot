@@ -27,7 +27,7 @@ router.post('/', function(req, res, next){
     console.log(event)
     const currentClass = new handler[event](req);
     currentClass.start().then((result)=>{
-        console.log(result.success);
+        console.log(result);
         res.end()
     })
 });
