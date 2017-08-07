@@ -18,7 +18,7 @@ Message.prototype.constructor = Message;
 Message.prototype.start = async function(){
     this.site = 'http://nasaatmedia.kg/namaz-ubaktysy';
     return new Promise((resolve, reject)=>{
-        this.client.set(this.senderId + 'step', (error, value)=>{
+        this.client.get(this.senderId + 'step', (error, value)=>{
             if(!error){
                 if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт'){
                     resolve(this._sendListOfCity())
