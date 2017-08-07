@@ -17,17 +17,19 @@ Message.prototype.constructor = Message;
 
 Message.prototype.start = async function(){
     this.site = 'http://nasaatmedia.kg/namaz-ubaktysy';
-    this.client.set(this.senderId + 'step', (error, value)=>{
-        if(!error){
-            if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт'){
-                this._sendListOfCity();
-            }else if(value === 'wait_time'){
-                this._sendNamazTimeOfCity();
-            }else{
-                this._sendMessage('Введите старт для начало')
+    return new Promise((resolve, reject)=>{
+        this.client.set(this.senderId + 'step', (error, value)=>{
+            if(!error){
+                if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт'){
+                    resolve(this._sendListOfCity())
+                }else if(value === 'wait_time'){
+                    resolve(this._sendNamazTimeOfCity())
+                }else{
+                   resolve(this._sendMessage('Введите старт для начало'))
+                }
             }
-        }
 
+        });
     });
 };
 
