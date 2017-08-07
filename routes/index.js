@@ -14,7 +14,17 @@ const client = require('redis').createClient('redis://h:pc620575a0d2ca6447a07427
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
+     x('http://nasaatmedia.kg/namaz-ubaktysy/', '.wrapper-main', ['.time_select.browser-default.waves-effect.waves-light.btn option'])((error, list)=>{
+        // let text = '';
+        // list.forEach((elem, i)=>{
+        //     text += i + '\r' + elem + '\n'
+        // });
+        // console.log(text)
+         let text = list.map((elem, i)=>{
+             return i + ' '+ elem
+         }).toString();
+         text.split(',').join('\n')
+    });
     res.render('index', { title: 'Express' });
 });
 
