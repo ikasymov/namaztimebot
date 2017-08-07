@@ -24,27 +24,24 @@ Message.prototype.start = async function(){
 
 Message.prototype._getNamaTime = async function(){
     return new Promise((resolve, reject)=>{
+        const city = 'osh';
         const data = {
             url: this.site,
             method: 'GET',
             headers: {
-                'Set-Cookie': {'selected_city': 'naryn'}
+                Connection: 'keep-alive',
+                Cookie: 'selected_city=' + city,
+                Accept: '*/*'
             }
-        }
+        };
         request(data, (error, req, body)=>{
-            if(error){
-                console.log(error)
-            }else{
-                console.log(body)
-            }
-            resolve()
+            x(body, '.list-times ul', ['li'])((error, list)=>{
+                if(!error){
+                    resolve(list.join(' '))
+                }
+                reject(error)
+            })
         })
-        // x(this.site, '.list-times ul', ['li'])((error, list)=>{
-        //     if(!error){
-        //         resolve(list.join(' '))
-        //     }
-        //     reject(error)
-        // })
     });
 };
 

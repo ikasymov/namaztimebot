@@ -7,6 +7,7 @@ const UserFollow = require('../UserFollow');
 const UserUnfollow = require('../UserUnfollow');
 const MessageUpdate = require('../MessageUpdate');
 const NewChat = require('../NewChat');
+const request = require('request');
 const client = require('redis').createClient('redis://h:pc620575a0d2ca6447a07427de2a718cde3f0f974840921dc15ee4e4ae83d1104@ec2-34-231-155-48.compute-1.amazonaws.com:12419');
 
 /* GET home page. */
