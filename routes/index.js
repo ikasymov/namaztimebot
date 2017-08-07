@@ -16,10 +16,10 @@ router.get('/', function(req, res, next) {
 
 let handler = {
     'message/new': Message,
-    'message/update': Message,
-    'user/follow': UserFollow,
-    'user/unfollow': UserUnfollow,
-    'chat/new': NewChat
+    // 'message/update': Message,
+    // 'user/follow': UserFollow,
+    // 'user/unfollow': UserUnfollow,
+    // 'chat/new': NewChat
 };
 
 router.post('/', function(req, res, next){
