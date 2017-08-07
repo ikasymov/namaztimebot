@@ -59,6 +59,7 @@ Message.prototype._sendNamazTimeOfCity = async function(){
             const listOfCity = JSON.parse(value);
             // console.log(listOfCity)
             // this._getNamazTime(listOfCity[this.message])
+            console.log(listOfCity[parseInt(this.message)]);
             this._getNamazTime(listOfCity[parseInt(this.message)]).then((namaztime)=>{
                 resolve(this._sendMessage(namaztime))
             })
