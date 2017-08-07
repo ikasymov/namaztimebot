@@ -33,6 +33,7 @@ Message.prototype._getNamaTime = async function(){
             }
         };
         request(data, (error, req, body)=>{
+            console.log(body)
             x(body, '.list-times ul', ['li'])((error, list)=>{
                 if(!error){
                     console.log(list)
