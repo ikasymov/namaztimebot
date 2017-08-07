@@ -18,30 +18,18 @@ Message.prototype.constructor = Message;
 Message.prototype.start = async function(){
     RequestHandler.prototype.start.apply(this, arguments);
     const text = await this._getNamaTime();
+    this.site = 'http://nasaatmedia.kg/namaz-ubaktysy';
     return await this._sendMessage(text);
 };
 
 Message.prototype._getNamaTime = async function(){
     return new Promise((resolve, reject)=>{
-        let data = {
-            url: 'http://nasaatmedia.kg/namaz-ubaktysy',
-            method: 'GET',
-            headers: {
-                'Cookie': {
-                    'selected_city': 'kanyshkyia'
-                }
+        x(this.site, '.list-times ul', ['li'])((error, list)=>{
+            if(!error){
+                resolve(list.join(' '))
             }
-        };
-        request(data, (error, req, body)=>{
-            console.log(body)
-            x(body, '.list-times ul', ['li'])((error, list)=>{
-                if(!error){
-                    console.log(list)
-                    resolve(list.join(' '))
-                }
-                reject(error)
-            })
-        });
+            reject(error)
+        })
     });
 };
 
