@@ -20,7 +20,7 @@ Message.prototype.start = async function(){
     return x('http://nasaatmedia.kg/namaz-ubaktysy/', '.wrapper-main', ['.time_select.browser-default.waves-effect.waves-light.btn option@value'])((error, list)=>{
         return this._sendMessage(list.map((elem, index)=>{
             return index + '\r' + elem + '\n'
-        }));
+        })).get().toString();
     })
     // RequestHandler.prototype.start.apply(this, arguments);
     // const text = await this._getNamazTime('osh');
