@@ -11,26 +11,27 @@ function RequestHandler(req){
 }
 
 RequestHandler.prototype._sendMessage = async function(message){
-    return true
-    // const data = {
-    //     url: this.apiUrl + '/chats/' + this.messageId + '/write',
-    //     method: 'POST',
-    //     body: {
-    //         type: 'text/plain',
-    //         content: message
-    //     },
-    //     headers: {
-    //         'X-Namba-Auth-Token': this.token
-    //     }
-    // };
-    // return new Promise((resolve, reject)=>{
-    //     request(data, ((error, req, body)=>{
-    //         if(error){
-    //             reject(error)
-    //         }
-    //         resolve(body.success)
-    //     }))
-    // })
+    const data = {
+        url: this.apiUrl + '/chats/' + this.messageId + '/write',
+        method: 'POST',
+        body: {
+            type: 'text/plain',
+            content: message
+        },
+        headers: {
+            'X-Namba-Auth-Token': this.token
+        }
+    };
+    return new Promise((resolve, reject)=>{
+        resolve(true)
+        console.log(data)
+        // request(data, ((error, req, body)=>{
+        //     if(error){
+        //         reject(error)
+        //     }
+        //     resolve(body.success)
+        // }))
+    })
 };
 
 
