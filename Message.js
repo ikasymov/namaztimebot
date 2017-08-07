@@ -44,7 +44,7 @@ Message.prototype._sendListOfCity = async function(){
                 reject(error)
             }
             this.client.set('listOfTime', JSON.stringify(list.en_list));
-            let text = 'Введите цифры города';
+            let text = 'Введите цифры города \n';
             text += list.ru_list.map((elem, i)=>{
                 return i + ' '+ elem
             }).toString().split(',').join('\n');
