@@ -57,10 +57,12 @@ Message.prototype._sendNamazTimeOfCity = async function(){
     return new Promise((resolve, reject)=>{
         this.client.get('listOfTime', (error, value)=>{
             const listOfCity = JSON.parse(value);
-            console.log(listOfCity[parseInt(this.message)])
             // console.log(listOfCity)
             // this._getNamazTime(listOfCity[this.message])
-            resolve(this._sendMessage(this._getNamazTime(listOfCity[parseInt(this.message)])))
+            this._getNamazTime(listOfCity[parseInt(this.message)]).then((namaztime)=>{
+                resolve(this._getNamazTime(namaztime))
+            })
+
         })
     });
 };
