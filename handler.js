@@ -23,14 +23,14 @@ RequestHandler.prototype._sendMessage = async function(message){
         }
     };
     return new Promise((resolve, reject)=>{
-        resolve(true)
-        console.log(data)
-        // request(data, ((error, req, body)=>{
-        //     if(error){
-        //         reject(error)
-        //     }
-        //     resolve(body.success)
-        // }))
+        // resolve(true)
+        // console.log(data);
+        request(data, ((error, req, body)=>{
+            if(error){
+                reject(error)
+            }
+            resolve(body)
+        }))
     })
 };
 
