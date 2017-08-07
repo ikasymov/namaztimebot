@@ -16,11 +16,12 @@ Message.prototype.constructor = Message;
 
 
 Message.prototype.start = async function(){
-    this.site = 'http://nasaatmedia.kg/namaz-ubaktysy'
-    x(this.site, '.input-field wm-select', ['.time_select.browser-default.waves-effect.waves-light.btn'])((error, list)=>{
-        console.log(list)
-    });
-    return await this._sendMessage('hello')
+    this.site = 'http://nasaatmedia.kg/namaz-ubaktysy';
+    return x('http://nasaatmedia.kg/namaz-ubaktysy/', '.wrapper-main', ['.time_select.browser-default.waves-effect.waves-light.btn option@value'])((error, list)=>{
+        return this._sendMessage(list.map((elem, index)=>{
+            return index + '\r' + elem + '\n'
+        }));
+    })
     // RequestHandler.prototype.start.apply(this, arguments);
     // const text = await this._getNamazTime('osh');
     // return await this._sendMessage(text);
