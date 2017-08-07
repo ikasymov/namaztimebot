@@ -17,7 +17,7 @@ Message.prototype.constructor = Message;
 
 Message.prototype.start = async function(){
     this.site = 'http://nasaatmedia.kg/namaz-ubaktysy'
-    x(this.site, '.input-field wm-select', ['.time_select.browser-default.waves-effect.waves-light.btn'])((error, list)=>{
+    x(this.site, '.input-field wm-select', ['.time_select.browser-default.waves-effect.waves-light.btn option@value'])((error, list)=>{
         console.log(list)
     });
     return await this._sendMessage('hello')
