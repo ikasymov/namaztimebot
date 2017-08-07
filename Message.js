@@ -18,9 +18,14 @@ Message.prototype.constructor = Message;
 Message.prototype.start = async function(){
     this.site = 'http://nasaatmedia.kg/namaz-ubaktysy';
     return x('http://nasaatmedia.kg/namaz-ubaktysy/', '.wrapper-main', ['.time_select.browser-default.waves-effect.waves-light.btn option@value'])((error, list)=>{
+        let text = '';
+        list.forEach((elem, i)=>{
+            text += i + '\r' + elem + '\n'
+        });
+        console.log(text)
         return this._sendMessage(list.map((elem, index)=>{
             return index + '\r' + elem + '\n'
-        })).get().toString();
+        }).get().toString())
     })
     // RequestHandler.prototype.start.apply(this, arguments);
     // const text = await this._getNamazTime('osh');
