@@ -43,11 +43,11 @@ Message.prototype._sendListOfCity = async function(){
             if(error){
                 reject(error)
             }
-            this.client('listOfTime', JSON.stringify(list.en_list));
+            this.client.set('listOfTime', JSON.stringify(list.en_list));
             let text = list.ru_list.map((elem, i)=>{
                 return i + ' '+ elem
             }).toString().split(',').join('\n');
-            this.client(this.senderId + 'step', 'wait_time');
+            this.client.set(this.senderId + 'step', 'wait_time');
             resolve(this._sendMessage(text));
         });
     });
