@@ -24,8 +24,15 @@ Message.prototype.start = async function(){
 Message.prototype._getNamaTime = async function(){
     return new Promise((resolve, reject)=>{
         let data = {
-            url: this.site
+            url: this.site,
+            method: 'GET',
+            headers: {
+                'Cookie': {
+                    'selected_city': 'kanyshkyia'
+                }
+            }
         };
+        request()
         x(data, '.list-times ul', ['li'])((error, list)=>{
             if(!error){
                 console.log(list)
