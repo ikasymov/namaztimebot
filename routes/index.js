@@ -5,6 +5,7 @@ const RequestHandler = require('../handler');
 const Follow = require('../Follow');
 const UserFollow = require('../UserFollow');
 const UserUnfollow = require('../UserUnfollow');
+const MessageUpdate = require('../UserUnfollow');
 const NewChat = require('../NewChat');
 const client = require('redis').createClient('redis://h:pc620575a0d2ca6447a07427de2a718cde3f0f974840921dc15ee4e4ae83d1104@ec2-34-231-155-48.compute-1.amazonaws.com:12419');
 
@@ -15,7 +16,7 @@ router.get('/', function(req, res, next) {
 
 let handler = {
     'message/new': Message,
-    'message/update': Message,
+    'message/update': MessageUpdate,
     'user/follow': UserFollow,
     'user/unfollow': UserUnfollow,
     'chat/new': NewChat
@@ -23,10 +24,9 @@ let handler = {
 
 router.post('/', function(req, res, next){
     const event = req.body.event;
-    console.log(event)
     const currentClass = new handler[event](req);
     currentClass.start().then((result)=>{
-        // console.log(result);
+        console.log(result.success);
         res.end()
     })
 });
