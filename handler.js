@@ -20,7 +20,8 @@ RequestHandler.prototype._sendMessage = async function(message){
         },
         headers: {
             'X-Namba-Auth-Token': this.token
-        }
+        },
+        json: true
     };
     return new Promise((resolve, reject)=>{
         request(data, (error, req, body)=>{

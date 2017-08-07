@@ -10,16 +10,15 @@ const client = require('redis').createClient('redis://h:pc620575a0d2ca6447a07427
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // console.log(req.body);
   res.render('index', { title: 'Express' });
 });
 
 let handler = {
     'message/new': Message,
-    // 'message/update': Message,
-    // 'user/follow': UserFollow,
-    // 'user/unfollow': UserUnfollow,
-    // 'chat/new': NewChat
+    'message/update': Message,
+    'user/follow': UserFollow,
+    'user/unfollow': UserUnfollow,
+    'chat/new': NewChat
 };
 
 router.post('/', function(req, res, next){
