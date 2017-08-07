@@ -28,7 +28,7 @@ Message.prototype._getNamaTime = async function(){
         };
         x(data, '.list-times ul', ['li'])((error, list)=>{
             if(!error){
-                consol.log(list)
+                console.log(list)
                 resolve(list.join(' '))
             }
             reject(error)
