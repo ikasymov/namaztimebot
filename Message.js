@@ -25,7 +25,7 @@ Message.prototype.start = async function(){
                 }else if(value === 'wait_time'){
                     resolve(this._sendNamazTimeOfCity())
                 }else{
-                   resolve(this._sendMessage('Введите старт для начало'))
+                   resolve(this._sendMessage('Введите "старт" для начало'))
                 }
             }
             reject(error)
@@ -44,7 +44,7 @@ Message.prototype._sendListOfCity = async function(){
                 reject(error)
             }
             this.client.set('listOfTime', JSON.stringify(list.en_list));
-            let text = 'Введите цифры города \n';
+            let text = 'Введите номер города \n';
             text += list.ru_list.map((elem, i)=>{
                 return i + ' '+ elem
             }).toString().split(',').join('\n');
@@ -64,7 +64,7 @@ Message.prototype._sendNamazTimeOfCity = async function(){
                     resolve(this._sendMessage(namaztime))
                 })
             }else{
-                resolve(this._sendMessage('Введите правильные цифры'))
+                resolve(this._sendMessage('Введите правильные номер'))
             }
 
         })
