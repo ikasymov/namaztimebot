@@ -32,8 +32,8 @@ UserFollow.prototype.createChat = async function(){
     return new Promise((resolve, reject)=>{
         request(data, (error, req, body)=>{
             if(!error){
-                console.log(body)
-                resolve(body)
+                this.messageId = body.data.membership.chat_id
+                resolve(this._sendMessage('Добро пожаловать введите "старт" что бы узнать время намаза'))
             }
             reject(error)
         })
