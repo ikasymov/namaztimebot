@@ -32,8 +32,6 @@ function Message(req){
     RequestHandler.apply(this, arguments);
     this.messageId = this.data.chat_id;
     this.message = this.data.content;
-    this.senderId= this.data.sender_id;
-    this.site = 'http://nasaatmedia.kg/namaz-ubaktysy/'
 }
 
 Message.prototype = Object.create(RequestHandler.prototype);
@@ -64,45 +62,6 @@ Message.prototype._sendListOfCity = async function(){
                 resolve(result)
             })
         });
-    });
-};
-
-Message.prototype._sendNamazTimeOfCity = async function(){
-    return new Promise((resolve, reject)=>{
-        this.client.get('listOfTime', (error, value)=>{
-            const listOfCity = JSON.parse(value);
-            const city = listOfCity[parseInt(this.message)];
-            if(city !== undefined){
-                this._getNamazTime(city).then((namaztime)=>{
-                    resolve(this._sendMessage(namaztime))
-                })
-            }else{
-                resolve(this._sendMessage('Введите правильные номер'))
-            }
-
-        })
-    });
-};
-
-Message.prototype._getNamazTime = async function(city){
-    return new Promise((resolve, reject)=>{
-        const data = {
-            url: this.site,
-            method: 'GET',
-            headers: {
-                Connection: 'keep-alive',
-                Cookie: 'selected_city=' + city,
-                Accept: '*/*'
-            }
-        };
-        request(data, (error, req, body)=>{
-            x(body, '.list-times ul', ['li'])((error, list)=>{
-                if(!error){
-                    resolve(list.join(' '))
-                }
-                reject(error)
-            })
-        })
     });
 };
 
