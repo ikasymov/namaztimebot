@@ -49,7 +49,7 @@ Message.prototype.start = async function(){
             }
         }else{
             this._sendMessage('Введи старт для просмотра времени намаза').then(result=>{
-                console.log(result)
+                // console.log(result)
             })
         }
 
@@ -61,7 +61,7 @@ Message.prototype._sendListOfCity = async function(){
     return new Promise((resolve, reject)=>{
         x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
             this._sendMessage(list.join('\n')).then(result=>{
-                resolve(result)
+                // resolve(result)
             })
         });
     });
