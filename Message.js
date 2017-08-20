@@ -42,10 +42,11 @@ Message.prototype.start = async function(){
     this.site = 'http://nasaatmedia.kg/namaz-ubaktysy';
     return new Promise((resolve, reject)=>{
         if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт'){
-            console.log(this.data.status);
-            this._sendListOfCity().then(result=>{
-                console.log(result)
-            })
+            if(this.data.status === 0){
+                this._sendListOfCity().then(result=>{
+                    console.log(result)
+                })
+            }
         }else{
             this._sendMessage('Введи старт для просмотра времени намаза').then(result=>{
                 console.log(result)
