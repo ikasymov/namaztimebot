@@ -52,12 +52,13 @@ Message.prototype.start = async function(){
 
 Message.prototype._sendListOfCity = async function(){
     let date = await getDateTime();
-    let dateOfNamaz = await new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject)=>{
         x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
-            resolve(list.join('\n'))
+            this._sendMessage(list.join('\n')).then(result=>{
+                resolve(result)
+            })
         });
     });
-    return this._sendMessage(dateOfNamaz);
 };
 
 Message.prototype._sendNamazTimeOfCity = async function(){
