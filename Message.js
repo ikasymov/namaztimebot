@@ -47,6 +47,10 @@ Message.prototype.start = async function(){
             this._sendListOfCity().then(result=>{
                 console.log(result)
             })
+        }else{
+            this._sendMessage('Введи старт для просмотра времени намаза').then(result=>{
+                console.log(result)
+            })
         }
 
     });
