@@ -3,6 +3,31 @@ const Xray = require('x-ray');
 const x = Xray();
 const request = require('request');
 
+async function getDateTime() {
+
+    let date = new Date();
+
+    let hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    let min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    let sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    let year = date.getFullYear();
+
+    let month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    let day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    let dash = '-';
+    return day + month + year
+
+};
+
 function Message(req){
     RequestHandler.apply(this, arguments);
     this.messageId = this.data.chat_id;
@@ -20,13 +45,9 @@ Message.prototype.start = async function(){
     return new Promise((resolve, reject)=>{
         this.client.get(this.senderId + 'step', (error, value)=>{
             if(!error){
-                if(this.message.toLowerCase() === 'start' || this.message.toLowerCase() === 'старт'){
-                    resolve(this._sendListOfCity())
-                }else if(value === 'wait_time'){
-                    resolve(this._sendNamazTimeOfCity())
-                }else{
-                   resolve(this._sendMessage('Введите "старт" для начало'))
-                }
+                this._sendListOfCity().then(result=>{
+                    console.log(result)
+                })
             }
             reject(error)
 
@@ -35,22 +56,12 @@ Message.prototype.start = async function(){
 };
 
 Message.prototype._sendListOfCity = async function(){
-    return new Promise((resolve, reject)=>{
-        x(this.site, '.wrapper-main', {
-            'ru_list': x('.valign-wrappers', ['.time_select.browser-default.waves-effect.waves-light.btn option']),
-            'en_list': x('.valign-wrappers', ['.time_select.browser-default.waves-effect.waves-light.btn option@value'])
-        })((error, list)=>{
-            if(error){
-                reject(error)
-            }
-            this.client.set('listOfTime', JSON.stringify(list.en_list));
-            let text = 'Введите номер города \n';
-            text += list.ru_list.map((elem, i)=>{
-                return i + ' '+ elem
-            }).toString().split(',').join('\n');
-            this.client.set(this.senderId + 'step', 'wait_time');
-            resolve(this._sendMessage(text));
-        });
+    let date = await getDateTime();
+    let dateOfNamaz = await new Promise((resolve, reject)=>{
+    x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
+        resolve(list.join('\n'))
+    });
+    return this._sendMessage(dateOfNamaz);
     });
 };
 
