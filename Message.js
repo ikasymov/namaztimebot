@@ -53,11 +53,11 @@ Message.prototype.start = async function(){
 Message.prototype._sendListOfCity = async function(){
     let date = await getDateTime();
     let dateOfNamaz = await new Promise((resolve, reject)=>{
-    x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
-        resolve(list.join('\n'))
+        x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
+            resolve(list.join('\n'))
+        });
     });
     return this._sendMessage(dateOfNamaz);
-    });
 };
 
 Message.prototype._sendNamazTimeOfCity = async function(){
