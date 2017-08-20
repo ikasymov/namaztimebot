@@ -43,12 +43,9 @@ Message.prototype.constructor = Message;
 Message.prototype.start = async function(){
     this.site = 'http://nasaatmedia.kg/namaz-ubaktysy';
     return new Promise((resolve, reject)=>{
-        if(!error){
-            this._sendListOfCity().then(result=>{
-                console.log(result)
-            })
-        }
-        reject(error)
+        this._sendListOfCity().then(result=>{
+            console.log(result)
+        })
 
     });
 };
