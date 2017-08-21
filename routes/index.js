@@ -46,12 +46,15 @@ router.post('/', function(req, res, next){
                 sendMessage(req.body.data.chat_id, list.join('\n')).then(
                     console.log('send namaz')
                 )
+                res.end()
             });
         }else{
             sendMessage(req.body.data.chat_id, 'Введите "старт" что бы узнать время намаза')
+            res.end()
         }
     }else{
-        console.log('not event')
+        console.log('not event');
+        res.end()
     }
 
 });
