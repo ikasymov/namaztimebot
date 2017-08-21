@@ -1,49 +1,82 @@
 const express = require('express');
 const router = express.Router();
-const Message = require('../Message');
-const RequestHandler = require('../handler');
-const Follow = require('../Follow');
-const UserFollow = require('../UserFollow');
-const UserUnfollow = require('../UserUnfollow');
-const MessageUpdate = require('../MessageUpdate');
-const NewChat = require('../NewChat');
 const request = require('request');
 const Xray = require('x-ray');
 const x = Xray();
-const client = require('redis').createClient('redis://h:pc620575a0d2ca6447a07427de2a718cde3f0f974840921dc15ee4e4ae83d1104@ec2-34-231-155-48.compute-1.amazonaws.com:12419');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });
 
-let handler = {
-    'message/new': Message,
-    'message/update': MessageUpdate,
-    'user/follow': UserFollow,
-    'user/unfollow': UserUnfollow,
-    'chat/new': NewChat
+let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NDE2OTk0NTE3LCJwaG9uZSI6IjYzODUiLCJwYXNzd29yZCI6IiQyYSQxMCR3TExDdVlNekpNYmZNQVhobGpBUXVlc2ZiamE1cUtTUmRBRFE2cG9qTFh5MWg1cFVjeUI3VyIsImlzQm90Ijp0cnVlLCJjb3VudHJ5Ijp0cnVlLCJpYXQiOjE1MDIwODExNzZ9.NNRiLjy5ExAmcGxyGspnonif9kdl5WHuUPpesNbS2v8'
+
+function getDateTime() {
+
+    let date = new Date();
+
+    let hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    let min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    let sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    let year = date.getFullYear();
+
+    let month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    let day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    let dash = '-';
+    return day + month + year
+
 };
 
 router.post('/', function(req, res, next){
     const event = req.body.event;
-    const currentClass = new handler[event](req);
-    console.log(event)
-    currentClass.start().then((result)=>{
-        console.log(result)
-        res.end()
-    }).catch(e=>{
-        console.log(e)
-    })
+    if(event === 'message/new'){
+        let content = req.body.data.content;
+        if(content.toLowerCase() === 'start' || content.toLowerCase() === 'старт'){
+            let date = getDateTime();
+            x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
+                sendMessage(req.body.data.chat_id, list.join('\n')).then(
+                    console.log('send namaz')
+                )
+            });
+        }
+    }else{
+        console.log('Not this message')
+    }
 
 });
 
-module.exports = router;
 
-
-
-async function requestHandler(req){
-    console.log(req.body)
+function sendMessage(messageId, message){
+    const data = {
+        url: 'https://namba1.co/api' + '/chats/' + messageId + '/write',
+        method: 'POST',
+        body: {
+            type: 'text/plain',
+            content: message
+        },
+        headers: {
+            'X-Namba-Auth-Token': token
+        },
+        json: true
+    };
+    return new Promise((resolve, reject)=>{
+        request(data, (error, req, body)=>{
+            if(error){
+                reject(error)
+            }
+            resolve(body)
+        })
+    })
 }
+module.exports = router;
 
 
