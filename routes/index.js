@@ -47,9 +47,9 @@ router.post('/', function(req, res, next){
                     console.log('send namaz')
                 )
             });
+        }else{
+            sendMessage(req.body.data.chat_id, 'Введите "старт" что бы узнать время намаза')
         }
-    }else{
-        sendMessage(req.body.data.chat_id, 'Введите "старт" что бы узнать время намаза')
     }
 
 });
