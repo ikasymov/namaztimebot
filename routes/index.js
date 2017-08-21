@@ -49,7 +49,7 @@ router.post('/', function(req, res, next){
             });
         }
     }else{
-        console.log('Not this message')
+        sendMessage(req.body.data.chat_id, 'Введите "старт" что бы узнать время намаза')
     }
 
 });
