@@ -9,6 +9,8 @@ router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });
 
+
+
 let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NDE2OTk0NTE3LCJwaG9uZSI6IjYzODUiLCJwYXNzd29yZCI6IiQyYSQxMCR3TExDdVlNekpNYmZNQVhobGpBUXVlc2ZiamE1cUtTUmRBRFE2cG9qTFh5MWg1cFVjeUI3VyIsImlzQm90Ijp0cnVlLCJjb3VudHJ5Ijp0cnVlLCJpYXQiOjE1MDIwODExNzZ9.NNRiLjy5ExAmcGxyGspnonif9kdl5WHuUPpesNbS2v8'
 
 function getDateTime() {
@@ -36,17 +38,46 @@ function getDateTime() {
 
 };
 
-router.post('/', function(req, res, next){
+
+async function setTyppingStatus(chatId, status){
+  let setStatus = {
+    true: 'typing',
+    false: 'stoptyping'
+  };
+  let data = {
+    url: 'https://namba1.co/api' + '/chats/' + chatId + '/' + setStatus[status],
+    method: 'GET',
+    headers: {
+      'X-Namba-Auth-Token': token
+    }
+  };
+  return new Promise((resolve, reject)=>{
+    request(data, (error, req, body)=>{
+      if(error){
+        reject(error)
+      }
+      resolve(true)
+    })
+  });
+};
+
+
+router.post('/', async function(req, res, next){
     const event = req.body.event;
     if(event === 'message/new'){
+        let chat_id = req.body.data.chat_id;
+        await setTyppingStatus(chat_id, true);
         let content = req.body.data.content;
         if(content.toLowerCase() === 'start' || content.toLowerCase() === 'старт'){
             let date = getDateTime();
             x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
-                sendMessage(req.body.data.chat_id, list.join('\n')).then(
-                    console.log('send namaz')
+                setTyppingStatus(chat_id, true).then(result=>{
+                  return sendMessage(chat_id, list.join('\n'))
+                }).then(
+                 console.log('send namaz')
                 )
-                res.end()
+  
+              res.end()
             });
         }else{
             sendMessage(req.body.data.chat_id, 'Введите "старт" что бы узнать время намаза')
