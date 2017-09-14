@@ -71,7 +71,7 @@ router.post('/', async function(req, res, next){
         if(content.toLowerCase() === 'start' || content.toLowerCase() === 'старт'){
             let date = getDateTime();
             x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
-                setTyppingStatus(chat_id, true).then(result=>{
+                setTyppingStatus(chat_id, false).then(result=>{
                   return sendMessage(chat_id, list.join('\n'))
                 }).then(
                  console.log('send namaz')
