@@ -73,7 +73,7 @@ router.post('/', async function(req, res, next){
             x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
                 setTyppingStatus(chat_id, false).then(result=>{
                   if(list.length <= 0){
-                    return sendMessage(chat_id, 'Еще не известно время намаза, попробуйте по позже')
+                    return sendMessage(chat_id, 'Еще не известно время намаза, попробуйте позже')
                   }
                   return sendMessage(chat_id, list.join('\n'))
                 }).then(
@@ -86,7 +86,31 @@ router.post('/', async function(req, res, next){
             sendMessage(req.body.data.chat_id, 'Введите "старт" что бы узнать время намаза')
             res.end()
         }
-    }else{
+    }else if(event === 'user/follow'){
+      const data = {
+        url: 'https://namba1.co/api' + '/chats/create',
+        method: 'POST',
+        body: {
+          name: 'new chat',
+          members: [req.body.data.id]
+        },
+        headers: {
+          'X-Namba-Auth-Token': token
+        },
+        json: true
+      };
+      return new Promise((resolve, reject)=>{
+        request(data, (error, req, body)=>{
+            let sendText = 'Данный бот позволяет узнать время намаза';
+            let chatId = body.data.membership.chat_id;
+            sendMessage(chatId, sendText).then(result=>{
+              resolve(res.end())
+            })
+        });
+      })
+  
+    }
+    else{
         console.log('not event');
         res.end()
     }
