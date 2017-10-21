@@ -72,6 +72,7 @@ router.post('/', async function(req, res, next){
             let date = getDateTime();
             x('http://muftiyat.kg/ky/namas/' + date,'article', ['.content .field'])((error, list)=>{
                 setTyppingStatus(chat_id, false).then(result=>{
+                  console.log(list)
                   return sendMessage(chat_id, list.join('\n'))
                 }).then(
                  console.log('send namaz')
