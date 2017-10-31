@@ -65,6 +65,7 @@ async function setTyppingStatus(chatId, status){
 router.post('/', async function(req, res, next){
     const event = req.body.event;
     if(event === 'message/new'){
+        console.log(req.body)
         let chat_id = req.body.data.chat_id;
         await setTyppingStatus(chat_id, true);
         let content = req.body.data.content;
