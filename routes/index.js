@@ -101,7 +101,7 @@ router.post('/', async function(req, res, next){
       };
       return new Promise((resolve, reject)=>{
         request(data, (error, req, body)=>{
-            let sendText = 'Данный бот позволяет узнать время намаза';
+            let sendText = 'Данный бот позволяет узнать время намаза. Выберите одну из команд: \n "старт" - узнать время намаза';
             let chatId = body.data.membership.chat_id;
             sendMessage(chatId, sendText).then(result=>{
               resolve(res.end())
